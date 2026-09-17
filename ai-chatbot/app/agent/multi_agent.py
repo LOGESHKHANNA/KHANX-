@@ -151,7 +151,8 @@ class MultiAgentOrchestrator:
         session_id: Optional[str] = None
     ) -> AsyncGenerator[str, None]:
         """Execute complex multi-agent workflow with iteration and timeout safeguards."""
-        yield f"data: {json.dumps({'text': '🤖 **KHANX Multi-Agent Swarm Activated**\n*Assigning task to specialized sub-agents...*\n\n'})}\n\n"
+        start_msg = "🤖 **KHANX Multi-Agent Swarm Activated**\n*Assigning task to specialized sub-agents...*\n\n"
+        yield f"data: {json.dumps({'text': start_msg})}\n\n"
 
         iteration = 0
         research_output = ""
@@ -161,7 +162,8 @@ class MultiAgentOrchestrator:
         # Step 1: Research Agent & RAG Agent (Parallel Execution with Timeout)
         if iteration < MAX_ITERATIONS:
             iteration += 1
-            yield f"data: {json.dumps({'text': '🔹 *[Phase 1/4] Research & RAG Agents gathering context...*\n'})}\n\n"
+            p1_msg = "🔹 *[Phase 1/4] Research & RAG Agents gathering context...*\n"
+            yield f"data: {json.dumps({'text': p1_msg})}\n\n"
             try:
                 task_res = self.research_agent.execute(query, user_id=user_id, db=db)
                 task_rag = self.rag_agent.execute(query, user_id=user_id, db=db)
@@ -181,7 +183,8 @@ class MultiAgentOrchestrator:
             iteration += 1
             q_lower = query.lower()
             if any(k in q_lower for k in ["code", "calculate", "python", "script", "compute", "matrix"]):
-                yield f"data: {json.dumps({'text': '🔹 *[Phase 2/4] Coding Agent generating & executing computation...*\n'})}\n\n"
+                p2_msg = "🔹 *[Phase 2/4] Coding Agent generating & executing computation...*\n"
+                yield f"data: {json.dumps({'text': p2_msg})}\n\n"
                 try:
                     sample_code = f"# Computation for {query[:30]}\nprint(sum(range(1, 101)))"
                     coding_output = await asyncio.wait_for(
@@ -194,7 +197,8 @@ class MultiAgentOrchestrator:
         # Step 3: Analysis Agent Synthesis
         if iteration < MAX_ITERATIONS:
             iteration += 1
-            yield f"data: {json.dumps({'text': '🔹 *[Phase 3/4] Analysis Agent synthesizing cross-domain insights...*\n'})}\n\n"
+            p3_msg = "🔹 *[Phase 3/4] Analysis Agent synthesizing cross-domain insights...*\n"
+            yield f"data: {json.dumps({'text': p3_msg})}\n\n"
             synthesis = self.analysis_agent.synthesize(
                 query=query,
                 research_data=research_output,
@@ -205,7 +209,8 @@ class MultiAgentOrchestrator:
             synthesis = f"Synthesis of query: '{query}'"
 
         # Step 4: Reviewer Agent Final Polish
-        yield f"data: {json.dumps({'text': '🔹 *[Phase 4/4] Reviewer Agent conducting final verification...*\n\n'})}\n\n"
+        p4_msg = "🔹 *[Phase 4/4] Reviewer Agent conducting final verification...*\n\n"
+        yield f"data: {json.dumps({'text': p4_msg})}\n\n"
         final_output = self.reviewer_agent.review_and_polish(synthesis, query)
 
         # Stream final response in chunks
