@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KHANNAX — Sign In</title>
+  <meta name="description" content="Sign in to KHANNAX — AI Powered by Groq + RAG" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <script>
+    (function(){ try { if (localStorage.getItem('khanx_theme') === 'dark') document.documentElement.setAttribute('data-theme','dark'); } catch(e){} })();
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; transition: background 0.4s, color 0.4s; }
+
+    /* Typography */
+    .auth-title, .brand-title { font-family: 'Space Grotesk', system-ui, sans-serif !important; font-weight: 700; letter-spacing: -0.03em; }
+    h1, h2, h3, .view-title, .modal-title { font-family: 'Sora', system-ui, sans-serif; letter-spacing: -0.015em; }
+
+    /* ── Light Tokens ── */
+    :root {
+      --bg: #F8FAFC; --surface: rgba(255,255,255,0.72); --border: rgba(0,0,0,0.08); --border-act: rgba(0,0,0,0.2);
+      --text: #0F172A; --text-sub: #64748B; --text-faint: #94A3B8;
+      --hover-bg: rgba(0,0,0,0.04); --input-bg: rgba(241,245,249,0.9); --input-bg-focus: #FFFFFF;
+      --purple: #6366F1; --cyan: #06B6D4; --purple-rgb: 99,102,241; --cyan-rgb: 6,182,212;
+      --grad-main: linear-gradient(135deg, #6366F1, #06B6D4); --grad-warm: linear-gradient(135deg, #6366F1, #EC4899);
+      --r-sm: 10px; --r-md: 14px; --r-lg: 20px; --r-xl: 24px;
+      --card-bg: rgba(255,255,255,0.65); --card-border: rgba(255,255,255,0.45);
+      --mesh-1: rgba(99,102,241,0.15); --mesh-2: rgba(6,182,212,0.12); --mesh-3: rgba(236,72,153,0.08);
+    }
+    /* ── Dark Tokens ── */
+    [data-theme="dark"] {
+      --bg: #0B0F1A; --surface: rgba(255,255,255,0.04); --border: rgba(255,255,255,0.08); --border-act: rgba(255,255,255,0.2);
+      --text: #F1F5F9; --text-sub: #94A3B8; --text-faint: rgba(255,255,255,0.3);
+      --hover-bg: rgba(255,255,255,0.06); --input-bg: rgba(30,41,59,0.8); --input-bg-focus: rgba(30,41,59,1);
+      --card-bg: rgba(15,23,42,0.6); --card-border: rgba(255,255,255,0.08);
+      --mesh-1: rgba(99,102,241,0.2); --mesh-2: rgba(6,182,212,0.15); --mesh-3: rgba(236,72,153,0.1);
+    }
+
+    body { background: var(--bg); color: var(--text); }
+
+    /* ── Animated Mesh Gradient Background ── */
+    .mesh-bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+    .mesh-orb { position: absolute; border-radius: 50%; filter: blur(80px); will-change: transform; }
+    .mesh-orb.o1 { width: 600px; height: 600px; top: -15%; left: -10%; background: var(--mesh-1); animation: meshFloat1 18s ease-in-out infinite; }
+    .mesh-orb.o2 { width: 500px; height: 500px; bottom: -10%; right: -8%; background: var(--mesh-2); animation: meshFloat2 22s ease-in-out infinite 3s; }
+    .mesh-orb.o3 { width: 400px; height: 400px; top: 40%; left: 50%; background: var(--mesh-3); animation: meshFloat3 25s ease-in-out infinite 6s; }
+    .mesh-orb.o4 { width: 350px; height: 350px; top: 10%; right: 20%; background: var(--mesh-2); animation: meshFloat1 20s ease-in-out infinite reverse; opacity: 0.7; }
+    @keyframes meshFloat1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(80px,60px) scale(1.08)} 66%{transform:translate(-50px,90px) scale(0.95)} }
+    @keyframes meshFloat2 { 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(-70px,-80px) scale(1.1)} 75%{transform:translate(60px,-40px) scale(0.92)} }
+    @keyframes meshFloat3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(90px,-70px) scale(1.05)} }
+
+    .noise { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.02; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+    [data-theme="dark"] .noise { opacity: 0.04; }
+
+    /* ── Particle Canvas ── */
+    #particleCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none !important; z-index: 2 !important; }
+    #cursorGlow { display: none !important; }
+    body.cursor-default, body.cursor-default * { cursor: default !important; }
+
+    /* ── Layout ── */
+    #authPage { position: relative; z-index: 10; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
+
+    /* ── Glassmorphism Auth Card ── */
+    .auth-card {
+      width: 100%; max-width: 440px; padding: 44px 38px;
+      background: var(--card-bg); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid var(--card-border); border-radius: var(--r-xl);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      animation: cardIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    [data-theme="dark"] .auth-card { box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05); }
+    @keyframes cardIn { from { opacity: 0; transform: translateY(30px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+    /* ── Branding ── */
+    .auth-brand { text-align: center; margin-bottom: 30px; }
+    .auth-logo {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 54px; height: 54px; border-radius: 16px;
+      background: var(--grad-main); color: #fff; font-size: 24px; font-weight: 700;
+      box-shadow: 0 4px 20px rgba(99,102,241,0.35);
+      margin-bottom: 14px; animation: logoFloat 4s ease-in-out infinite;
+    }
+    @keyframes logoFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    .auth-title { font-size: 30px; font-weight: 800; background: var(--grad-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.1; }
+    .auth-subtitle { font-size: 13px; color: var(--text-sub); margin-top: 6px; }
+
+    /* ── View Header ── */
+    .view-header { text-align: center; margin-bottom: 26px; }
+    .view-title { font-size: 20px; font-weight: 700; color: var(--text); }
+    .view-desc { font-size: 13px; color: var(--text-sub); margin-top: 4px; }
+
+    /* ── Form ── */
+    .field-group { display: flex; flex-direction: column; gap: 14px; }
+    .field-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-sub); margin-bottom: 6px; letter-spacing: 0.03em; text-transform: uppercase; }
+    .field-wrap { position: relative; }
+    .field-input {
+      width: 100%; padding: 12px 16px; background: var(--input-bg); border: 1px solid var(--border);
+      border-radius: var(--r-md); font-size: 14px; font-family: 'Inter', sans-serif; color: var(--text);
+      outline: none; transition: all 0.2s;
+    }
+    .field-input::placeholder { color: var(--text-faint); }
+    .field-input:focus { border-color: var(--purple); background: var(--input-bg-focus); box-shadow: 0 0 0 3px rgba(99,102,241,0.12); }
+    [data-theme="dark"] .field-input:focus { box-shadow: 0 0 0 3px rgba(99,102,241,0.2); }
+    .field-input.has-icon { padding-right: 44px; }
+    .field-input.error { border-color: #EF4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.12); }
+
+    .eye-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-faint); font-size: 16px; padding: 4px; border-radius: 6px; transition: color 0.2s; }
+    .eye-btn:hover { color: var(--text); }
+
+    .field-error { font-size: 11.5px; color: #EF4444; margin-top: 5px; display: none; align-items: center; gap: 4px; }
+    .field-error.visible { display: flex; }
+
+    /* ── Options Row ── */
+    .row-options { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+    .remember-wrap { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+    .remember-wrap input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--purple); }
+    .remember-label { font-size: 13px; color: var(--text-sub); cursor: pointer; }
+    .forgot-link { font-size: 13px; color: var(--purple); text-decoration: none; font-weight: 500; background: none; border: none; cursor: pointer; font-family: inherit; transition: opacity 0.2s; }
+    .forgot-link:hover { opacity: 0.75; }
+
+    /* ── Primary Button ── */
+    .auth-btn {
+      width: 100%; padding: 13px; background: var(--grad-main); border: none; border-radius: var(--r-md);
+      font-size: 15px; font-weight: 700; font-family: 'Inter', sans-serif; color: #fff; cursor: pointer;
+      margin-top: 22px; display: flex; align-items: center; justify-content: center; gap: 8px;
+      box-shadow: 0 4px 18px rgba(99,102,241,0.3); transition: all 0.25s; position: relative; overflow: hidden;
+    }
+    .auth-btn::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent); opacity: 0; transition: opacity 0.25s; }
+    .auth-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 28px rgba(99,102,241,0.4); }
+    .auth-btn:hover::after { opacity: 1; }
+    .auth-btn:active { transform: translateY(0); }
+    .auth-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .auth-btn .spinner { width: 17px; height: 17px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.35); border-top-color: #fff; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Dividers ── */
+    .auth-divider { display: flex; align-items: center; gap: 12px; margin: 22px 0 0; color: var(--text-faint); font-size: 12px; font-weight: 500; }
+    .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .guest-divider { display: flex; align-items: center; gap: 12px; margin: 16px 0 0; color: var(--text-faint); font-size: 12px; }
+    .guest-divider::before, .guest-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* ── Switch Link ── */
+    .switch-wrap { text-align: center; margin-top: 16px; font-size: 13.5px; color: var(--text-sub); }
+    .switch-link { color: var(--purple); font-weight: 600; background: none; border: none; cursor: pointer; font-family: inherit; font-size: inherit; text-decoration: underline; text-underline-offset: 2px; transition: opacity 0.2s; }
+    .switch-link:hover { opacity: 0.75; }
+
+    /* ── Social / Skip Buttons ── */
+    .social-row { display: flex; gap: 10px; margin-top: 14px; }
+    .social-btn {
+      flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 11px 14px; background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-md); font-size: 13.5px; font-weight: 600; font-family: 'Inter', sans-serif;
+      color: var(--text); cursor: pointer; transition: all 0.2s;
+    }
+    .social-btn:hover { background: var(--hover-bg); border-color: var(--border-act); transform: translateY(-1px); }
+    .skip-login-btn {
+      width: 100%; padding: 11px; background: transparent; border: 1.5px solid var(--border);
+      border-radius: var(--r-md); font-size: 13.5px; font-weight: 600; font-family: 'Inter', sans-serif;
+      color: var(--text-sub); cursor: pointer; margin-top: 12px;
+      display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;
+    }
+    .skip-login-btn:hover { background: var(--hover-bg); border-color: var(--border-act); color: var(--text); transform: translateY(-1px); }
+
+    /* ── Banners ── */
+    .auth-error-banner { display: none; padding: 11px 14px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); border-radius: var(--r-sm); font-size: 13px; color: #EF4444; margin-bottom: 16px; align-items: center; gap: 8px; animation: slideDown 0.2s ease; }
+    .auth-error-banner.visible { display: flex; }
+    .auth-success-banner { display: none; padding: 11px 14px; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.25); border-radius: var(--r-sm); font-size: 13px; color: #10B981; margin-bottom: 16px; align-items: center; gap: 8px; }
+    .auth-success-banner.visible { display: flex; }
+    @keyframes slideDown { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ── Strength Meter ── */
+    .strength-bar-wrap { margin-top: 8px; display: none; flex-direction: column; gap: 4px; }
+    .strength-bar-wrap.visible { display: flex; }
+    .strength-bar { height: 3px; background: var(--border); border-radius: 100px; overflow: hidden; }
+    .strength-fill { height: 100%; border-radius: 100px; transition: width 0.3s, background 0.3s; width: 0%; }
+    .strength-label { font-size: 11px; color: var(--text-faint); }
+
+    /* ── View Transitions ── */
+    .auth-view { transition: opacity 0.2s, transform 0.2s; }
+    .auth-view.hidden-view { display: none; }
+
+    /* ── Forgot Modal ── */
+    #forgotModal { display: none; position: fixed; inset: 0; z-index: 9000; align-items: center; justify-content: center; background: rgba(0,0,0,0.4); backdrop-filter: blur(6px); }
+    #forgotModal.open { display: flex; }
+    .modal-card { width: 100%; max-width: 380px; padding: 32px 28px; background: var(--card-bg); backdrop-filter: blur(24px); border: 1px solid var(--card-border); border-radius: var(--r-xl); animation: cardIn 0.35s cubic-bezier(0.34,1.56,0.64,1) both; }
+    .modal-title { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .modal-desc { font-size: 13px; color: var(--text-sub); margin-bottom: 20px; }
+    .modal-close { position: absolute; top: 14px; right: 14px; background: none; border: none; cursor: pointer; color: var(--text-faint); font-size: 18px; padding: 4px 8px; border-radius: 6px; transition: all 0.15s; }
+    .modal-close:hover { background: var(--hover-bg); color: var(--text); }
+
+    /* ── Theme Toggle ── */
+    #controlsContainer { position: fixed; top: 18px; right: 20px; z-index: 100; display: flex; gap: 8px; align-items: center; }
+    #themeToggle { display: flex; background: var(--surface); backdrop-filter: blur(12px); border: 1px solid var(--border); border-radius: 100px; padding: 3px; gap: 2px; }
+    .theme-btn { width: 32px; height: 28px; border-radius: 100px; border: none; font-size: 14px; cursor: pointer; transition: all 0.3s; color: var(--text-sub); background: transparent; display: flex; align-items: center; justify-content: center; }
+    .theme-btn.active { background: var(--bg); color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    [data-theme="dark"] .theme-btn.active { box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+    .theme-btn:not(.active):hover { color: var(--text); background: var(--hover-bg); }
+
+    @media (max-width: 480px) { .auth-card { padding: 30px 20px; } }
+  </style>
+</head>
+<body>
+
+  <!-- Animated Mesh Gradient Background -->
+  <div class="mesh-bg">
+    <div class="mesh-orb o1"></div>
+    <div class="mesh-orb o2"></div>
+    <div class="mesh-orb o3"></div>
+    <div class="mesh-orb o4"></div>
+  </div>
+  <div class="noise"></div>
+
+  <canvas id="particleCanvas"></canvas>
+  <div id="cursorGlow"></div>
+
+  <!-- Controls -->
+  <div id="controlsContainer">
+    <div id="themeToggle">
+      <button class="theme-btn active" id="btnLight" type="button" onclick="setTheme('light')" title="Light mode">☀</button>
+      <button class="theme-btn" id="btnDark" type="button" onclick="setTheme('dark')" title="Dark mode">🌙</button>
+    </div>
+  </div>
+
+  <!-- Auth Page -->
+  <div id="authPage">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <div class="auth-logo" style="background: transparent; box-shadow: none;">
+          <img src="logo.png" alt="KHANX AI Logo" style="width: 52px; height: 52px; object-fit: contain; border-radius: 12px; filter: drop-shadow(0 4px 14px rgba(14, 165, 233, 0.4));" />
+        </div>
+        <div class="auth-title">KHANNAX</div>
+        <div class="auth-subtitle">AI Powered by Groq + RAG</div>
+      </div>
+
+      <div class="auth-error-banner" id="globalError"><span>⚠️</span><span id="globalErrorMsg">Something went wrong.</span></div>
+      <div class="auth-success-banner" id="globalSuccess"><span>✅</span><span id="globalSuccessMsg"></span></div>
+
+      <!-- LOGIN VIEW -->
+      <div class="auth-view" id="loginView">
+        <div class="view-header">
+          <div class="view-title">Welcome back</div>
+          <div class="view-desc">Sign in to continue to KHANNAX</div>
+        </div>
+        <form id="loginForm" onsubmit="handleLogin(event); return false;" novalidate>
+          <div class="field-group">
+            <div>
+              <label class="field-label" for="loginEmail">Email address</label>
+              <div class="field-wrap"><input class="field-input" type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email" /></div>
+              <div class="field-error" id="loginEmailErr"><span>⚠</span><span id="loginEmailErrMsg">Please enter a valid email.</span></div>
+            </div>
+            <div>
+              <label class="field-label" for="loginPassword">Password</label>
+              <div class="field-wrap">
+                <input class="field-input has-icon" type="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password" />
+                <button type="button" class="eye-btn" id="loginEyeBtn" onclick="toggleEye('loginPassword','loginEyeBtn')" title="Show or hide password" aria-label="Show or hide password">👁</button>
+              </div>
+              <div class="field-error" id="loginPasswordErr"><span>⚠</span><span id="loginPasswordErrMsg">Password is required.</span></div>
+            </div>
+          </div>
+          <div class="row-options" style="margin-top: 16px;">
+            <label class="remember-wrap" for="rememberMe"><input type="checkbox" id="rememberMe" /><span class="remember-label">Remember me</span></label>
+            <button type="button" class="forgot-link" onclick="openForgotModal()">Forgot password?</button>
+          </div>
+          <button type="submit" class="auth-btn" id="loginBtn">Sign In</button>
+        </form>
+        <div class="auth-divider">or</div>
+        <div class="switch-wrap">Don't have an account? <button class="switch-link" type="button" onclick="switchView('signup')">Create one</button></div>
+      </div>
+
+      <!-- SIGNUP VIEW -->
+      <div class="auth-view hidden-view" id="signupView">
+        <div class="view-header">
+          <div class="view-title">Create your account</div>
+          <div class="view-desc">Join KHANNAX and start chatting</div>
+        </div>
+        <form id="signupForm" onsubmit="handleSignup(event); return false;" novalidate>
+          <div class="field-group">
+            <div>
+              <label class="field-label" for="signupName">Full name</label>
+              <div class="field-wrap"><input class="field-input" type="text" id="signupName" placeholder="Logesh Khanna" autocomplete="name" /></div>
+              <div class="field-error" id="signupNameErr"><span>⚠</span><span>Name must be at least 2 characters.</span></div>
+            </div>
+            <div>
+              <label class="field-label" for="signupEmail">Email address</label>
+              <div class="field-wrap"><input class="field-input" type="email" id="signupEmail" placeholder="you@example.com" autocomplete="email" /></div>
+              <div class="field-error" id="signupEmailErr"><span>⚠</span><span id="signupEmailErrMsg">Please enter a valid email.</span></div>
+            </div>
+            <div>
+              <label class="field-label" for="signupPassword">Password</label>
+              <div class="field-wrap">
+                <input class="field-input has-icon" type="password" id="signupPassword" placeholder="Min. 8 characters" autocomplete="new-password" oninput="checkPasswordStrength(this.value)" />
+                <button type="button" class="eye-btn" id="signupEyeBtn" onclick="toggleEye('signupPassword','signupEyeBtn')" title="Show or hide password" aria-label="Show or hide password">👁</button>
+              </div>
+              <div class="strength-bar-wrap" id="strengthWrap"><div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div><span class="strength-label" id="strengthLabel"></span></div>
+              <div class="field-error" id="signupPasswordErr"><span>⚠</span><span id="signupPasswordErrMsg">Password must be at least 8 characters.</span></div>
+            </div>
+            <div>
+              <label class="field-label" for="signupConfirm">Confirm password</label>
+              <div class="field-wrap">
+                <input class="field-input has-icon" type="password" id="signupConfirm" placeholder="Re-enter password" autocomplete="new-password" />
+                <button type="button" class="eye-btn" id="signupConfirmEyeBtn" onclick="toggleEye('signupConfirm','signupConfirmEyeBtn')" title="Show or hide password" aria-label="Show or hide password">👁</button>
+              </div>
+              <div class="field-error" id="signupConfirmErr"><span>⚠</span><span>Passwords do not match.</span></div>
+            </div>
+          </div>
+          <button type="submit" class="auth-btn" id="signupBtn" style="margin-top: 24px;">Create Account</button>
+        </form>
+        <div class="auth-divider">or</div>
+        <div class="switch-wrap">Already have an account? <button class="switch-link" type="button" onclick="switchView('login')">Sign in</button></div>
+      </div>
+
+      <!-- Social Login -->
+      <div class="guest-divider" style="margin-top: 14px;">or continue with</div>
+      <div class="social-row">
+        <button type="button" class="social-btn" id="googleLoginBtn" onclick="handleSocialLogin('google', event)" aria-label="Sign in with Google">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M17.5 12.5c0-.6-.1-1.2-.2-1.7H12v3.3h3.2c-.1.7-.5 1.4-1 1.9l2.8 2.2c1.7-1.5 2.5-3.8 2.5-5.7z"/><path d="M12 21c2.6 0 4.8-.9 6.4-2.4l-2.8-2.2c-.9.6-2 .9-3.2.9-2.5 0-4.6-1.7-5.3-3.9H4.1v2.3C5.7 18.9 8.6 21 12 21z"/><path d="M6.7 13.4c-.2-.6-.3-1.2-.3-1.9s.1-1.3.3-1.9V7.3H4.1A8.9 8.9 0 0 0 3 12c0 1.4.3 2.8.9 4l2.8-2.6z"/><path d="M12 6.5c1.4 0 2.7.5 3.7 1.4l2.7-2.7A8.9 8.9 0 0 0 12 3C8.6 3 5.7 5.1 4.1 8.3l2.8 2.2c.7-2.3 2.8-4 5.1-4z"/></svg>
+          Google
+        </button>
+        <button type="button" class="social-btn" id="appleLoginBtn" onclick="handleSocialLogin('apple', event)" aria-label="Sign in with Apple">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 21c-1.1 0-1.8-.4-3-1-.9-.5-1.5-.7-2.3-.7s-1.4.2-2.3.7c-1.1.6-1.9 1-3 1C3.2 21 1 18.2 1 14.8c0-2 .9-3.5 2.1-4.7 1.1-.9 2.5-1.4 3.9-1.4 1 0 2 .3 2.9.8.7.4 1.2.6 1.7.6.6 0 1.2-.2 1.8-.6 1-.5 2.1-.8 3.3-.8 1.5 0 2.8.5 3.9 1.4-1.2 1.2-1.9 2.6-1.9 4.3 0 1.9.9 3.5 2.3 4.5-.4 1-1.3 2-2.4 2.1m-3.5-9.3c.6-1.3.5-3 0-3.9-1.4.2-2.6 1.1-3.3 2.4-.6 1.1-.6 2.8 0 3.8 1.4-.2 2.6-1 3.3-2.3"/></svg>
+          Apple
+        </button>
+      </div>
+
+      <!-- Guest Mode -->
+      <div class="guest-divider">or explore as guest</div>
+      <button type="button" class="skip-login-btn" id="skipLoginBtn" onclick="skipLogin(event)" aria-label="Skip login and continue as guest">
+        <span style="font-size:16px;">👤</span> Skip Login — Try as Guest
+      </button>
+    </div>
+  </div>
+
+  <!-- Forgot Password Modal -->
+  <div id="forgotModal">
+    <div class="modal-card" style="position:relative;">
+      <button type="button" class="modal-close" onclick="closeForgotModal(event)" title="Close modal" aria-label="Close modal">✕</button>
+      <div class="modal-title">Reset Password</div>
+      <div class="modal-desc">Enter your email and we'll send reset instructions.</div>
+      <div class="auth-success-banner" id="forgotSuccess" style="margin-bottom:16px;"><span>✅</span><span>If an account exists, a reset link has been sent.</span></div>
+      <div id="forgotFormWrap">
+        <label class="field-label" for="forgotEmail">Email address</label>
+        <div class="field-wrap" style="margin-bottom:6px;"><input class="field-input" type="email" id="forgotEmail" placeholder="you@example.com" /></div>
+        <div class="field-error" id="forgotEmailErr"><span>⚠</span><span>Please enter a valid email.</span></div>
+        <button type="button" class="auth-btn" style="margin-top:18px;" onclick="handleForgotPassword(event)">Send Reset Link</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ JAVASCRIPT ═══ -->
+  <script>
+  /* Session Check */
+  (function() {
+    try {
+      if (window.location.hash === '#' && window.history && window.history.replaceState) {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+      const h = window.location.hash || '', s = window.location.search || '';
+      if (h.includes('access_token=') || s.includes('code=') || h.includes('error=') || s.includes('error=')) return;
+      if (sessionStorage.getItem('khanx_logged_out')) return;
+      const session = localStorage.getItem('khanx_session');
+      if (session) {
+        const parsed = JSON.parse(session);
+        if (parsed && (parsed.email || parsed.isGuest)) {
+          const isLocal = window.location.protocol === 'file:';
+          window.location.replace(isLocal ? 'index.html' : '/');
+          return;
+        }
+      }
+    } catch(e) {}
+  })();
+
+  /* Constants */
+  const USERS_KEY = 'khanx_users', SESSION_KEY = 'khanx_session';
+  const P_LIGHT = [{r:29,g:78,b:216},{r:14,g:165,b:233},{r:236,g:72,b:153},{r:59,g:130,b:246},{r:16,g:185,b:129}];
+  const P_DARK = [{r:96,g:165,b:250},{r:56,g:189,b:248},{r:244,g:114,b:182},{r:129,g:140,b:248},{r:52,g:211,b:153}];
+
+  /* Theme */
+  let theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  function setTheme(t) {
+    theme = t;
+    document.documentElement.setAttribute('data-theme', t === 'dark' ? 'dark' : 'light');
+    document.getElementById('btnLight').classList.toggle('active', t === 'light');
+    document.getElementById('btnDark').classList.toggle('active', t === 'dark');
+    localStorage.setItem('khanx_theme', t);
+  }
+  setTheme(theme);
+
+  let cursorEffectEnabled = true;
+
+  /* View Switching */
+  function switchView(view) {
+    clearAllErrors(); clearBanners();
+    const loginView = document.getElementById('loginView');
+    const signupView = document.getElementById('signupView');
+    if (view === 'signup') { loginView.classList.add('hidden-view'); signupView.classList.remove('hidden-view'); }
+    else { signupView.classList.add('hidden-view'); loginView.classList.remove('hidden-view'); }
+  }
+
+  /* Password Toggle */
+  function toggleEye(inputId, btnId) {
+    const input = document.getElementById(inputId), btn = document.getElementById(btnId);
+    if (input.type === 'password') { input.type = 'text'; btn.textContent = '🙈'; }
+    else { input.type = 'password'; btn.textContent = '👁'; }
+  }
+
+  /* Password Strength */
+  function checkPasswordStrength(val) {
+    const wrap = document.getElementById('strengthWrap'), fill = document.getElementById('strengthFill'), label = document.getElementById('strengthLabel');
+    if (!val) { wrap.classList.remove('visible'); return; }
+    wrap.classList.add('visible');
+    let score = 0;
+    if (val.length >= 8) score++; if (val.length >= 12) score++; if (/[A-Z]/.test(val)) score++; if (/[0-9]/.test(val)) score++; if (/[^A-Za-z0-9]/.test(val)) score++;
+    const levels = [{pct:'20%',color:'#ef4444',text:'Very weak'},{pct:'40%',color:'#f59e0b',text:'Weak'},{pct:'60%',color:'#f59e0b',text:'Fair'},{pct:'80%',color:'#10b981',text:'Strong'},{pct:'100%',color:'#10b981',text:'Very strong'}];
+    const lvl = levels[Math.min(score - 1, 4)] || levels[0];
+    fill.style.width = lvl.pct; fill.style.background = lvl.color; label.textContent = lvl.text; label.style.color = lvl.color;
+  }
+
+  /* Validation Helpers */
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  function showFieldError(errId, inputEl, msg) { const e = document.getElementById(errId); if (e) { e.classList.add('visible'); if (msg) { const s = e.querySelector('span:last-child'); if (s) s.textContent = msg; } } if (inputEl) inputEl.classList.add('error'); }
+  function clearFieldError(errId, inputEl) { const e = document.getElementById(errId); if (e) e.classList.remove('visible'); if (inputEl) inputEl.classList.remove('error'); }
+  function clearAllErrors() { document.querySelectorAll('.field-error').forEach(e => e.classList.remove('visible')); document.querySelectorAll('.field-input').forEach(e => e.classList.remove('error')); }
+  function showGlobalError(msg) { document.getElementById('globalError').classList.add('visible'); document.getElementById('globalErrorMsg').textContent = msg; document.getElementById('globalSuccess').classList.remove('visible'); }
+  function showGlobalSuccess(msg) { document.getElementById('globalSuccess').classList.add('visible'); document.getElementById('globalSuccessMsg').textContent = msg; document.getElementById('globalError').classList.remove('visible'); }
+  function clearBanners() { document.getElementById('globalError').classList.remove('visible'); document.getElementById('globalSuccess').classList.remove('visible'); }
+
+  /* Login Handler */
+  function handleLogin(e) {
+    e.preventDefault(); clearAllErrors(); clearBanners();
+    const emailEl = document.getElementById('loginEmail'), passwordEl = document.getElementById('loginPassword');
+    const remember = document.getElementById('rememberMe').checked, btn = document.getElementById('loginBtn');
+    const email = emailEl.value.trim(), password = passwordEl.value; let valid = true;
+    if (!email || !EMAIL_RE.test(email)) { showFieldError('loginEmailErr', emailEl); valid = false; }
+    if (!password) { showFieldError('loginPasswordErr', passwordEl); valid = false; }
+    if (!valid) return;
+    btn.disabled = true; btn.innerHTML = '<div class="spinner"></div> Signing in…';
+    (async () => {
+      try {
+        if (!window.chatBackend || !window.chatBackend.signIn) throw new Error('Authentication backend helper is not loaded.');
+        const { data, error } = await window.chatBackend.signIn(email, password);
+        if (error) throw error;
+        const user = data?.user, session = data?.session;
+        if (!user) throw new Error('Authentication succeeded but user data was missing.');
+        const name = user.user_metadata?.name || user.user_metadata?.full_name || user.username || email.split('@')[0];
+        localStorage.setItem(SESSION_KEY, JSON.stringify({ email, name, token: session?.access_token || '', rememberMe: remember }));
+        sessionStorage.removeItem('khanx_logged_out');
+        showGlobalSuccess('Login successful! Redirecting…');
+        setTimeout(() => { const isLocal = window.location.protocol === 'file:'; window.location.replace(isLocal ? 'index.html' : '/'); }, 600);
+      } catch(err) { btn.disabled = false; btn.textContent = 'Sign In'; showGlobalError(err.message || 'Invalid email or password.'); }
+    })();
+  }
+
+  /* Signup Handler */
+  function handleSignup(e) {
+    e.preventDefault(); clearAllErrors(); clearBanners();
+    const nameEl = document.getElementById('signupName'), emailEl = document.getElementById('signupEmail');
+    const passEl = document.getElementById('signupPassword'), confirmEl = document.getElementById('signupConfirm'), btn = document.getElementById('signupBtn');
+    const name = nameEl.value.trim(), email = emailEl.value.trim(), password = passEl.value, confirm = confirmEl.value; let valid = true;
+    if (name.length < 2) { showFieldError('signupNameErr', nameEl); valid = false; }
+    if (!email || !EMAIL_RE.test(email)) { showFieldError('signupEmailErr', emailEl); valid = false; }
+    if (password.length < 8) { showFieldError('signupPasswordErr', passEl); valid = false; }
+    if (!confirm || confirm !== password) { showFieldError('signupConfirmErr', confirmEl); valid = false; }
+    if (!valid) return;
+    btn.disabled = true; btn.innerHTML = '<div class="spinner"></div> Creating account…';
+    (async () => {
+      try {
+        if (!window.chatBackend || !window.chatBackend.signUp) throw new Error('Authentication backend helper is not loaded.');
+        const { data, error } = await window.chatBackend.signUp(email, password, name);
+        if (error) throw error;
+        const session = data?.session, user = data?.user;
+        if (session && user) {
+          const userName = user.user_metadata?.name || user.user_metadata?.username || name;
+          localStorage.setItem(SESSION_KEY, JSON.stringify({ email, name: userName, token: session.access_token || '', rememberMe: false }));
+          sessionStorage.removeItem('khanx_logged_out');
+          showGlobalSuccess('Account created! Welcome to KHANX 🎉');
+          setTimeout(() => { const isLocal = window.location.protocol === 'file:'; window.location.replace(isLocal ? 'index.html' : '/'); }, 750);
+        } else { showGlobalSuccess('Account created! Check your email to confirm.'); btn.disabled = false; btn.textContent = 'Create Account'; }
+      } catch(err) { btn.disabled = false; btn.textContent = 'Create Account'; showGlobalError(err.message || 'Signup failed.'); }
+    })();
+  }
+
+  /* Forgot Password Modal */
+  function openForgotModal() { document.getElementById('forgotModal').classList.add('open'); document.getElementById('forgotEmail').value = ''; document.getElementById('forgotEmailErr').classList.remove('visible'); document.getElementById('forgotSuccess').style.display = 'none'; document.getElementById('forgotFormWrap').style.display = 'block'; }
+  function closeForgotModal(e) { if (e && e.preventDefault) e.preventDefault(); document.getElementById('forgotModal').classList.remove('open'); }
+  function handleForgotPassword(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const emailEl = document.getElementById('forgotEmail'), email = emailEl.value.trim();
+    document.getElementById('forgotEmailErr').classList.remove('visible'); emailEl.classList.remove('error');
+    if (!email || !EMAIL_RE.test(email)) { document.getElementById('forgotEmailErr').classList.add('visible'); emailEl.classList.add('error'); return; }
+    document.getElementById('forgotFormWrap').style.display = 'none'; document.getElementById('forgotSuccess').style.display = 'flex';
+  }
+  document.getElementById('forgotModal').addEventListener('click', function(e) { if (e.target === this) closeForgotModal(); });
+
+  /* Guest Mode */
+  function skipLogin() {
+    const guestId = 'guest_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+    localStorage.removeItem('khanx_guest_history');
+    localStorage.setItem('khanx_guest', JSON.stringify({ id: guestId, msgCount: 0, maxMessages: 2, createdAt: new Date().toISOString() }));
+    localStorage.setItem(SESSION_KEY, JSON.stringify({ email: null, name: 'Guest', isGuest: true, guestId }));
+    sessionStorage.removeItem('khanx_logged_out');
+    var isLocal = window.location.protocol === 'file:';
+    window.location.replace(isLocal ? 'index.html' : '/');
+  }
+
+  /* OAuth Login */
+  async function handleSocialLogin(provider) {
+    clearAllErrors(); clearBanners(); sessionStorage.removeItem('khanx_logged_out');
+    if (window.location.protocol === 'file:') { showGlobalError('Google Sign-In requires the app to be served via HTTP.'); return; }
+    if (!window.chatBackend || !window.chatBackend.getClient) { showGlobalError('Auth system missing.'); return; }
+    const btnId = provider === 'google' ? 'googleLoginBtn' : 'appleLoginBtn';
+    const btn = document.getElementById(btnId);
+    if (btn) { btn.disabled = true; btn.style.opacity = '0.7'; }
+    showGlobalSuccess(`Connecting to ${provider.charAt(0).toUpperCase() + provider.slice(1)}...`);
+    try {
+      const { data, error } = await window.chatBackend.signInWithOAuth(provider);
+      if (error) { if (btn) { btn.disabled = false; btn.style.opacity = ''; } showGlobalError(error.message || `Failed to authenticate with ${provider}.`); }
+    } catch(err) { if (btn) { btn.disabled = false; btn.style.opacity = ''; } showGlobalError(`Failed to connect to ${provider}: ${err.message || 'Unknown error'}`); }
+  }
+
+  /* OAuth Redirect Handler */
+  async function handleOAuthRedirect() {
+    const urlHash = window.location.hash || '', urlSearch = window.location.search || '';
+    const isOAuthCallback = urlHash.includes('access_token=') || urlSearch.includes('code=') || urlHash.includes('error=') || urlSearch.includes('error=');
+    if (isOAuthCallback) sessionStorage.removeItem('khanx_logged_out');
+    if (urlHash.includes('error=') || urlSearch.includes('error=')) {
+      const rawParams = urlHash ? urlHash.replace(/^#/, '') : urlSearch.replace(/^\?/, '');
+      const params = new URLSearchParams(rawParams);
+      showGlobalError(decodeURIComponent((params.get('error_description') || params.get('error') || 'OAuth failed').replace(/\+/g, ' ')));
+      return;
+    }
+    function processAndRedirectUser(user, accessToken) {
+      if (!user) return;
+      const email = user.email || (user.user_metadata && user.user_metadata.email) || 'google_user@gmail.com';
+      const name = user.username || '';
+      localStorage.setItem('khanx_session', JSON.stringify({ email, name, token: accessToken || '', rememberMe: true }));
+      sessionStorage.removeItem('khanx_logged_out');
+      showGlobalSuccess('Google login successful! Redirecting…');
+      setTimeout(() => { window.location.replace(window.location.protocol === 'file:' ? 'index.html' : '/'); }, 500);
+    }
+    let client = null;
+    try { if (window.chatBackend && window.chatBackend.getClient) client = await window.chatBackend.getClient(); } catch(e) {}
+    if (sessionStorage.getItem('khanx_logged_out') && !isOAuthCallback) { if (client) { try { await client.auth.signOut(); } catch(e) {} } return; }
+    if (urlHash.includes('access_token=')) {
+      try {
+        const hashParams = new URLSearchParams(urlHash.replace(/^#/, ''));
+        const accessToken = hashParams.get('access_token'), refreshToken = hashParams.get('refresh_token');
+        if (accessToken) {
+          if (client && client.auth && client.auth.setSession) await client.auth.setSession({ access_token: accessToken, refresh_token: refreshToken || '' }).catch(() => {});
+          let user = null;
+          if (client && client.auth && client.auth.getUser) { const res = await client.auth.getUser(accessToken).catch(() => null); if (res && res.data && res.data.user) user = res.data.user; }
+          if (!user) { try { const parts = accessToken.split('.'); if (parts.length === 3) { let b64 = parts[1].replace(/-/g,'+').replace(/_/g,'/'); while (b64.length % 4) b64 += '='; const payload = JSON.parse(decodeURIComponent(window.atob(b64).split('').map(c => '%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join(''))); user = { id: payload.sub || 'oauth_user', email: payload.email || '', user_metadata: payload.user_metadata || { email: payload.email, full_name: payload.name || payload.full_name } }; } } catch(e) {} }
+          if (!user) user = { id: 'oauth_user', email: 'user@gmail.com', user_metadata: { name: 'Google User' } };
+          processAndRedirectUser(user, accessToken);
+          if (window.history && window.history.replaceState) window.history.replaceState(null, '', window.location.pathname + window.location.search);
+          return;
+        }
+      } catch(err) {}
+    }
+    if (urlSearch.includes('code=')) {
+      try {
+        const code = new URLSearchParams(urlSearch.replace(/^\?/, '')).get('code');
+        if (code && client && client.auth && client.auth.exchangeCodeForSession) {
+          const { data } = await client.auth.exchangeCodeForSession(code);
+          if (data && data.session && data.session.user) { processAndRedirectUser(data.session.user, data.session.access_token); return; }
+        }
+      } catch(err) {}
+    }
+    if (client) {
+      try { const { data: { session: s } } = await client.auth.getSession(); if (s && s.user) { processAndRedirectUser(s.user, s.access_token); return; } } catch(e) {}
+      client.auth.onAuthStateChange((event, session) => { if ((['SIGNED_IN','TOKEN_REFRESHED','INITIAL_SESSION'].includes(event)) && session && session.user) processAndRedirectUser(session.user, session.access_token); });
+    }
+  }
+  if (document.readyState === 'loading') window.addEventListener('DOMContentLoaded', () => handleOAuthRedirect());
+  else setTimeout(() => handleOAuthRedirect(), 0);
+
+  /* ── Particle Canvas (Round dots + connecting lines, theme-aware) ── */
+  const pCanv = document.getElementById('particleCanvas');
+  const pCtx = pCanv ? pCanv.getContext('2d') : null;
+  let particles = [];
+  function resizeCanvas() { if (!pCanv) return; pCanv.width = window.innerWidth; pCanv.height = window.innerHeight; }
+  window.addEventListener('resize', resizeCanvas); resizeCanvas();
+  let mouseX = -1000, mouseY = -1000;
+  document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+
+  function initParticles() {
+    particles = [];
+    const count = window.innerWidth < 768 ? 35 : 55;
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * pCanv.width, y: Math.random() * pCanv.height,
+        vx: (Math.random() - 0.5) * 0.6, vy: (Math.random() - 0.5) * 0.6,
+        size: Math.random() * 1.5 + 1.0, colorIdx: i % 5,
+        pulsePhase: Math.random() * Math.PI * 2
+      });
+    }
+  }
+  initParticles();
+
+  function renderParticles() {
+    if (!pCtx) return;
+    pCtx.clearRect(0, 0, pCanv.width, pCanv.height);
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const now = performance.now();
+    const colors = isDark
+      ? ['rgba(99,102,241,','rgba(14,165,233,','rgba(139,92,246,','rgba(16,185,129,','rgba(236,72,153,']
+      : ['rgba(99,102,241,','rgba(14,165,233,','rgba(139,92,246,','rgba(16,185,129,','rgba(236,72,153,'];
+
+    // Update positions
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = pCanv.width; if (p.x > pCanv.width) p.x = 0;
+      if (p.y < 0) p.y = pCanv.height; if (p.y > pCanv.height) p.y = 0;
+      // Cursor push
+      const dx = p.x - mouseX, dy = p.y - mouseY, dist = Math.sqrt(dx*dx+dy*dy);
+      if (dist < 140 && dist > 0) { const push = (1-dist/140)*1.5; p.x += (dx/dist)*push; p.y += (dy/dist)*push; }
+    });
+
+    // Connecting lines
+    const maxDist = 120, maxDistSq = maxDist * maxDist;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i+1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
+        const dSq = dx*dx + dy*dy;
+        if (dSq < maxDistSq) {
+          const alpha = (1 - Math.sqrt(dSq)/maxDist) * (isDark ? 0.18 : 0.14);
+          pCtx.beginPath(); pCtx.moveTo(particles[i].x, particles[i].y); pCtx.lineTo(particles[j].x, particles[j].y);
+          pCtx.strokeStyle = isDark ? `rgba(99,102,241,${alpha})` : `rgba(99,102,241,${alpha})`;
+          pCtx.lineWidth = 0.8; pCtx.stroke();
+        }
+      }
+    }
+
+    // Draw particles
+    particles.forEach(p => {
+      const pulse = 0.85 + Math.sin(now * 0.002 + p.pulsePhase) * 0.15;
+      const r = p.size * pulse;
+      const c = colors[p.colorIdx];
+      pCtx.beginPath(); pCtx.arc(p.x, p.y, r * 1.8, 0, Math.PI * 2);
+      pCtx.fillStyle = c + (isDark ? '0.06)' : '0.04)'); pCtx.fill();
+      pCtx.beginPath(); pCtx.arc(p.x, p.y, r, 0, Math.PI * 2);
+      pCtx.fillStyle = c + (isDark ? '0.7)' : '0.55)');
+      pCtx.shadowColor = c + '0.3)'; pCtx.shadowBlur = 3; pCtx.fill(); pCtx.shadowBlur = 0;
+    });
+
+    requestAnimationFrame(renderParticles);
+  }
+  renderParticles();
+  </script>
+</body>
+</html>

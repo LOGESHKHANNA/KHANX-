@@ -1,0 +1,23 @@
+# =============================================================================
+# KHANNAX Isolated Python Sandbox Dockerfile
+# Provides a hardened execution environment for untrusted user Python code.
+# =============================================================================
+FROM python:3.11-slim
+
+# Install light data science dependencies
+RUN pip install --no-cache-dir \
+    numpy \
+    pandas \
+    scipy
+
+# Create unprivileged sandbox user
+RUN useradd -m -u 1000 sandboxuser
+
+# Set working directory to RAM/ephemeral mount point
+WORKDIR /tmp
+
+# Switch to unprivileged user by default
+USER 1000:1000
+
+# Default command
+CMD ["python3", "-c", "print('KHANX Python Sandbox Ready')"]

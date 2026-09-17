@@ -1,0 +1,54 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# IDE / AI tools
+.vscode/
+.idea/
+.agents/
+.antigravity/
+.antigravity-ide/
+
+# Generated / temporary files
+tmp/
+graphify-out/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

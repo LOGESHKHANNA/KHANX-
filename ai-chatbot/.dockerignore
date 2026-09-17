@@ -1,0 +1,16 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.git/
+.gitignore
+.env
+.DS_Store
+tmp/
+uploads/
+uploads_temp/
+chroma_data/
+*.log
+test_*.py
+_test_temp/

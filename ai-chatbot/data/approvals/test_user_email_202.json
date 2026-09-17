@@ -1,0 +1,97 @@
+[
+  {
+    "action_id": "act_ed1fedf00946",
+    "user_id": "test_user_email_202",
+    "session_id": "session_email_789",
+    "action_type": "send_email",
+    "tool_name": "send_email",
+    "arguments": {
+      "recipient": "client@example.com",
+      "subject": "Project Proposal Update",
+      "body": "Hi team, here is the updated timeline for Q4 deliverables."
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'send_email' with arguments: {\"recipient\": \"client@example.com\", \"subject\": \"Project Proposal Update\", \"body\": \"Hi team, here is the updated timeline for Q4 deliverables.\"}.",
+    "risk_level": "HIGH",
+    "status": "PENDING",
+    "created_at": "2026-08-24T14:26:20.030859+00:00",
+    "updated_at": "2026-08-24T14:26:20.030859+00:00",
+    "expires_at": "2026-08-24T14:36:20.030859+00:00",
+    "execution_result": null
+  },
+  {
+    "action_id": "act_b782357924d2",
+    "user_id": "test_user_email_202",
+    "session_id": "session_email_789",
+    "action_type": "send_email",
+    "tool_name": "send_email",
+    "arguments": {
+      "recipient": "client@example.com",
+      "subject": "Project Proposal Update",
+      "body": "Hi team, here is the updated timeline for Q4 deliverables."
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'send_email' with arguments: {\"recipient\": \"client@example.com\", \"subject\": \"Project Proposal Update\", \"body\": \"Hi team, here is the updated timeline for Q4 deliverables.\"}.",
+    "risk_level": "HIGH",
+    "status": "PENDING",
+    "created_at": "2026-08-24T14:26:33.317840+00:00",
+    "updated_at": "2026-08-24T14:26:33.317840+00:00",
+    "expires_at": "2026-08-24T14:36:33.317840+00:00",
+    "execution_result": null
+  },
+  {
+    "action_id": "act_b3bc28cfc377",
+    "user_id": "test_user_email_202",
+    "session_id": "session_email_789",
+    "action_type": "send_email",
+    "tool_name": "send_email",
+    "arguments": {
+      "recipient": "client@example.com",
+      "subject": "Project Proposal Update",
+      "body": "Hi team, here is the updated timeline for Q4 deliverables."
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'send_email' with arguments: {\"recipient\": \"client@example.com\", \"subject\": \"Project Proposal Update\", \"body\": \"Hi team, here is the updated timeline for Q4 deliverables.\"}.",
+    "risk_level": "HIGH",
+    "status": "PENDING",
+    "created_at": "2026-08-24T14:30:17.283778+00:00",
+    "updated_at": "2026-08-24T14:30:17.283778+00:00",
+    "expires_at": "2026-08-24T14:40:17.283778+00:00",
+    "execution_result": null
+  },
+  {
+    "action_id": "act_4cf8780b7df5",
+    "user_id": "test_user_email_202",
+    "session_id": "session_email_789",
+    "action_type": "send_email",
+    "tool_name": "send_email",
+    "arguments": {
+      "recipient": "client@example.com",
+      "subject": "Project Proposal Update",
+      "body": "Hi team, here is the updated timeline for Q4 deliverables."
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'send_email' with arguments: {\"recipient\": \"client@example.com\", \"subject\": \"Project Proposal Update\", \"body\": \"Hi team, here is the updated timeline for Q4 deliverables.\"}.",
+    "risk_level": "HIGH",
+    "status": "PENDING",
+    "created_at": "2026-08-24T14:37:38.956943+00:00",
+    "updated_at": "2026-08-24T14:37:38.956943+00:00",
+    "expires_at": "2026-08-24T14:47:38.956943+00:00",
+    "execution_result": null
+  },
+  {
+    "action_id": "act_965895f1af35",
+    "user_id": "test_user_email_202",
+    "session_id": "session_email_789",
+    "action_type": "send_email",
+    "tool_name": "send_email",
+    "arguments": {
+      "recipient": "client@example.com",
+      "subject": "Project Proposal Update",
+      "body": "Hi team, here is the updated timeline for Q4 deliverables."
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'send_email' with arguments: {\"recipient\": \"client@example.com\", \"subject\": \"Project Proposal Update\", \"body\": \"Hi team, here is the updated timeline for Q4 deliverables.\"}.",
+    "risk_level": "HIGH",
+    "status": "PENDING",
+    "created_at": "2026-08-24T14:39:58.823788+00:00",
+    "updated_at": "2026-08-24T14:39:58.823788+00:00",
+    "expires_at": "2026-08-24T14:49:58.823788+00:00",
+    "execution_result": null
+  }
+]

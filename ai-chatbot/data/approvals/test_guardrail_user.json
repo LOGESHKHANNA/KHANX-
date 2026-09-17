@@ -1,0 +1,287 @@
+[
+  {
+    "action_id": "act_0d2783a62c23",
+    "user_id": "test_guardrail_user",
+    "session_id": null,
+    "action_type": "send_email",
+    "tool_name": "send_email",
+    "arguments": {
+      "to_email": "target@example.com",
+      "subject": "Test",
+      "body": "Hello"
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'send_email' with arguments: {\"to_email\": \"target@example.com\", \"subject\": \"Test\", \"body\": \"Hello\"}.",
+    "risk_level": "HIGH",
+    "status": "PENDING",
+    "created_at": "2026-08-24T14:39:43.365118+00:00",
+    "updated_at": "2026-08-24T14:39:43.365118+00:00",
+    "expires_at": "2026-08-24T14:49:43.365118+00:00",
+    "execution_result": null
+  },
+  {
+    "action_id": "act_bd18a3605e28",
+    "user_id": "test_guardrail_user",
+    "session_id": null,
+    "action_type": "send_email",
+    "tool_name": "send_email",
+    "arguments": {
+      "to_email": "target@example.com",
+      "subject": "Test",
+      "body": "Hello"
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'send_email' with arguments: {\"to_email\": \"target@example.com\", \"subject\": \"Test\", \"body\": \"Hello\"}.",
+    "risk_level": "HIGH",
+    "status": "PENDING",
+    "created_at": "2026-08-24T14:40:04.698127+00:00",
+    "updated_at": "2026-08-24T14:40:04.698127+00:00",
+    "expires_at": "2026-08-24T14:50:04.698127+00:00",
+    "execution_result": null
+  },
+  {
+    "action_id": "act_ecc670dcf430",
+    "user_id": "test_guardrail_user",
+    "session_id": null,
+    "action_type": "send_email",
+    "tool_name": "send_email",
+    "arguments": {
+      "to_email": "target@example.com",
+      "subject": "Test",
+      "body": "Hello"
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'send_email' with arguments: {\"to_email\": \"target@example.com\", \"subject\": \"Test\", \"body\": \"Hello\"}.",
+    "risk_level": "HIGH",
+    "status": "PENDING",
+    "created_at": "2026-08-28T08:27:44.506318+00:00",
+    "updated_at": "2026-08-28T08:27:44.506318+00:00",
+    "expires_at": "2026-08-28T08:37:44.506318+00:00",
+    "execution_result": null
+  },
+  {
+    "action_id": "act_13601dce6d07",
+    "user_id": "test_guardrail_user",
+    "session_id": null,
+    "action_type": "send_email",
+    "tool_name": "send_email",
+    "arguments": {
+      "to_email": "target@example.com",
+      "subject": "Test",
+      "body": "Hello"
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'send_email' with arguments: {\"to_email\": \"target@example.com\", \"subject\": \"Test\", \"body\": \"Hello\"}.",
+    "risk_level": "HIGH",
+    "status": "PENDING",
+    "created_at": "2026-08-28T13:46:42.798321+00:00",
+    "updated_at": "2026-08-28T13:46:42.798321+00:00",
+    "expires_at": "2026-08-28T13:56:42.798321+00:00",
+    "execution_result": null
+  },
+  {
+    "action_id": "act_48023eb8d505",
+    "user_id": "test_guardrail_user",
+    "session_id": null,
+    "action_type": "send_email",
+    "tool_name": "send_email",
+    "arguments": {
+      "to_email": "target@example.com",
+      "subject": "Test",
+      "body": "Hello"
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'send_email' with arguments: {\"to_email\": \"target@example.com\", \"subject\": \"Test\", \"body\": \"Hello\"}.",
+    "risk_level": "HIGH",
+    "status": "PENDING",
+    "created_at": "2026-08-28T13:59:02.686053+00:00",
+    "updated_at": "2026-08-28T13:59:02.686053+00:00",
+    "expires_at": "2026-08-28T14:09:02.686053+00:00",
+    "execution_result": null
+  },
+  {
+    "action_id": "act_16fd87549946",
+    "user_id": "test_guardrail_user",
+    "session_id": null,
+    "action_type": "send_email",
+    "tool_name": "send_email",
+    "arguments": {
+      "to_email": "target@example.com",
+      "subject": "Test",
+      "body": "Hello"
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'send_email' with arguments: {\"to_email\": \"target@example.com\", \"subject\": \"Test\", \"body\": \"Hello\"}.",
+    "risk_level": "HIGH",
+    "status": "PENDING",
+    "created_at": "2026-08-28T14:11:46.489168+00:00",
+    "updated_at": "2026-08-28T14:11:46.489168+00:00",
+    "expires_at": "2026-08-28T14:21:46.489168+00:00",
+    "execution_result": null
+  },
+  {
+    "action_id": "act_c679511093fe",
+    "user_id": "test_guardrail_user",
+    "session_id": null,
+    "action_type": "send_email",
+    "tool_name": "send_email",
+    "arguments": {
+      "to_email": "target@example.com",
+      "subject": "Test",
+      "body": "Hello"
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'send_email' with arguments: {\"to_email\": \"target@example.com\", \"subject\": \"Test\", \"body\": \"Hello\"}.",
+    "risk_level": "HIGH",
+    "status": "PENDING",
+    "created_at": "2026-09-17T04:29:01.783354+00:00",
+    "updated_at": "2026-09-17T04:29:01.783354+00:00",
+    "expires_at": "2026-09-17T04:39:01.783354+00:00",
+    "execution_result": null
+  },
+  {
+    "action_id": "act_8d791fc83701",
+    "user_id": "test_guardrail_user",
+    "session_id": null,
+    "action_type": "send_email",
+    "tool_name": "send_email",
+    "arguments": {
+      "to_email": "target@example.com",
+      "subject": "Test",
+      "body": "Hello"
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'send_email' with arguments: {\"to_email\": \"target@example.com\", \"subject\": \"Test\", \"body\": \"Hello\"}.",
+    "risk_level": "HIGH",
+    "status": "PENDING",
+    "created_at": "2026-09-17T04:29:13.612929+00:00",
+    "updated_at": "2026-09-17T04:29:13.612929+00:00",
+    "expires_at": "2026-09-17T04:39:13.612929+00:00",
+    "execution_result": null
+  },
+  {
+    "action_id": "act_907a4cea7f94",
+    "user_id": "test_guardrail_user",
+    "session_id": null,
+    "action_type": "send_email",
+    "tool_name": "send_email",
+    "arguments": {
+      "to_email": "target@example.com",
+      "subject": "Test",
+      "body": "Hello"
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'send_email' with arguments: {\"to_email\": \"target@example.com\", \"subject\": \"Test\", \"body\": \"Hello\"}.",
+    "risk_level": "HIGH",
+    "status": "PENDING",
+    "created_at": "2026-09-17T04:31:30.510367+00:00",
+    "updated_at": "2026-09-17T04:31:30.510367+00:00",
+    "expires_at": "2026-09-17T04:41:30.510367+00:00",
+    "execution_result": null
+  },
+  {
+    "action_id": "act_b5e1388d285b",
+    "user_id": "test_guardrail_user",
+    "session_id": null,
+    "action_type": "send_email",
+    "tool_name": "send_email",
+    "arguments": {
+      "to_email": "target@example.com",
+      "subject": "Test",
+      "body": "Hello"
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'send_email' with arguments: {\"to_email\": \"target@example.com\", \"subject\": \"Test\", \"body\": \"Hello\"}.",
+    "risk_level": "HIGH",
+    "status": "PENDING",
+    "created_at": "2026-09-17T04:35:27.621047+00:00",
+    "updated_at": "2026-09-17T04:35:27.621047+00:00",
+    "expires_at": "2026-09-17T04:45:27.621047+00:00",
+    "execution_result": null
+  },
+  {
+    "action_id": "act_3376cf418d88",
+    "user_id": "test_guardrail_user",
+    "session_id": null,
+    "action_type": "send_email",
+    "tool_name": "send_email",
+    "arguments": {
+      "to_email": "target@example.com",
+      "subject": "Test",
+      "body": "Hello"
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'send_email' with arguments: {\"to_email\": \"target@example.com\", \"subject\": \"Test\", \"body\": \"Hello\"}.",
+    "risk_level": "HIGH",
+    "status": "PENDING",
+    "created_at": "2026-09-17T04:40:18.255036+00:00",
+    "updated_at": "2026-09-17T04:40:18.255036+00:00",
+    "expires_at": "2026-09-17T04:50:18.255036+00:00",
+    "execution_result": null
+  },
+  {
+    "action_id": "act_48d329d7731d",
+    "user_id": "test_guardrail_user",
+    "session_id": null,
+    "action_type": "send_email",
+    "tool_name": "send_email",
+    "arguments": {
+      "to_email": "target@example.com",
+      "subject": "Test",
+      "body": "Hello"
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'send_email' with arguments: {\"to_email\": \"target@example.com\", \"subject\": \"Test\", \"body\": \"Hello\"}.",
+    "risk_level": "HIGH",
+    "status": "PENDING",
+    "created_at": "2026-09-17T04:47:35.074449+00:00",
+    "updated_at": "2026-09-17T04:47:35.074449+00:00",
+    "expires_at": "2026-09-17T04:57:35.074449+00:00",
+    "execution_result": null
+  },
+  {
+    "action_id": "act_5b8856b01e87",
+    "user_id": "test_guardrail_user",
+    "session_id": null,
+    "action_type": "send_email",
+    "tool_name": "send_email",
+    "arguments": {
+      "to_email": "target@example.com",
+      "subject": "Test",
+      "body": "Hello"
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'send_email' with arguments: {\"to_email\": \"target@example.com\", \"subject\": \"Test\", \"body\": \"Hello\"}.",
+    "risk_level": "HIGH",
+    "status": "PENDING",
+    "created_at": "2026-09-17T05:01:48.228651+00:00",
+    "updated_at": "2026-09-17T05:01:48.228651+00:00",
+    "expires_at": "2026-09-17T05:11:48.228651+00:00",
+    "execution_result": null
+  },
+  {
+    "action_id": "act_cd583830d669",
+    "user_id": "test_guardrail_user",
+    "session_id": null,
+    "action_type": "send_email",
+    "tool_name": "send_email",
+    "arguments": {
+      "to_email": "target@example.com",
+      "subject": "Test",
+      "body": "Hello"
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'send_email' with arguments: {\"to_email\": \"target@example.com\", \"subject\": \"Test\", \"body\": \"Hello\"}.",
+    "risk_level": "HIGH",
+    "status": "PENDING",
+    "created_at": "2026-09-17T05:26:06.764160+00:00",
+    "updated_at": "2026-09-17T05:26:06.764160+00:00",
+    "expires_at": "2026-09-17T05:36:06.764160+00:00",
+    "execution_result": null
+  },
+  {
+    "action_id": "act_97c403c2433d",
+    "user_id": "test_guardrail_user",
+    "session_id": null,
+    "action_type": "send_email",
+    "tool_name": "send_email",
+    "arguments": {
+      "to_email": "target@example.com",
+      "subject": "Test",
+      "body": "Hello"
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'send_email' with arguments: {\"to_email\": \"target@example.com\", \"subject\": \"Test\", \"body\": \"Hello\"}.",
+    "risk_level": "HIGH",
+    "status": "PENDING",
+    "created_at": "2026-09-17T05:40:01.618117+00:00",
+    "updated_at": "2026-09-17T05:40:01.618117+00:00",
+    "expires_at": "2026-09-17T05:50:01.618117+00:00",
+    "execution_result": null
+  }
+]

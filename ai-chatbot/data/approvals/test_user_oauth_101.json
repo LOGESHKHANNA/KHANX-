@@ -1,0 +1,102 @@
+[
+  {
+    "action_id": "act_ec944e85cdb0",
+    "user_id": "test_user_oauth_101",
+    "session_id": "session_test_456",
+    "action_type": "create_calendar_event",
+    "tool_name": "create_calendar_event",
+    "arguments": {
+      "title": "Quarterly Strategy Sync",
+      "start_time": "2026-08-25T14:00:00",
+      "end_time": "2026-08-25T15:00:00",
+      "description": "Discuss Q4 objectives and budget allocation."
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'create_calendar_event' with arguments: {\"title\": \"Quarterly Strategy Sync\", \"start_time\": \"2026-08-25T14:00:00\", \"end_time\": \"2026-08-25T15:00:00\", \"description\": \"Discuss Q4 objectives and budget allocation.\"}.",
+    "risk_level": "MEDIUM",
+    "status": "PENDING",
+    "created_at": "2026-08-24T14:18:27.597237+00:00",
+    "updated_at": "2026-08-24T14:18:27.597237+00:00",
+    "expires_at": "2026-08-24T14:28:27.597237+00:00",
+    "execution_result": null
+  },
+  {
+    "action_id": "act_2b8c350b9b7b",
+    "user_id": "test_user_oauth_101",
+    "session_id": "session_test_456",
+    "action_type": "create_calendar_event",
+    "tool_name": "create_calendar_event",
+    "arguments": {
+      "title": "Quarterly Strategy Sync",
+      "start_time": "2026-08-25T14:00:00",
+      "end_time": "2026-08-25T15:00:00",
+      "description": "Discuss Q4 objectives and budget allocation."
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'create_calendar_event' with arguments: {\"title\": \"Quarterly Strategy Sync\", \"start_time\": \"2026-08-25T14:00:00\", \"end_time\": \"2026-08-25T15:00:00\", \"description\": \"Discuss Q4 objectives and budget allocation.\"}.",
+    "risk_level": "MEDIUM",
+    "status": "PENDING",
+    "created_at": "2026-08-24T14:26:33.278715+00:00",
+    "updated_at": "2026-08-24T14:26:33.278715+00:00",
+    "expires_at": "2026-08-24T14:36:33.278715+00:00",
+    "execution_result": null
+  },
+  {
+    "action_id": "act_800038feadae",
+    "user_id": "test_user_oauth_101",
+    "session_id": "session_test_456",
+    "action_type": "create_calendar_event",
+    "tool_name": "create_calendar_event",
+    "arguments": {
+      "title": "Quarterly Strategy Sync",
+      "start_time": "2026-08-25T14:00:00",
+      "end_time": "2026-08-25T15:00:00",
+      "description": "Discuss Q4 objectives and budget allocation."
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'create_calendar_event' with arguments: {\"title\": \"Quarterly Strategy Sync\", \"start_time\": \"2026-08-25T14:00:00\", \"end_time\": \"2026-08-25T15:00:00\", \"description\": \"Discuss Q4 objectives and budget allocation.\"}.",
+    "risk_level": "MEDIUM",
+    "status": "PENDING",
+    "created_at": "2026-08-24T14:30:17.274605+00:00",
+    "updated_at": "2026-08-24T14:30:17.274605+00:00",
+    "expires_at": "2026-08-24T14:40:17.274605+00:00",
+    "execution_result": null
+  },
+  {
+    "action_id": "act_a41178d392d5",
+    "user_id": "test_user_oauth_101",
+    "session_id": "session_test_456",
+    "action_type": "create_calendar_event",
+    "tool_name": "create_calendar_event",
+    "arguments": {
+      "title": "Quarterly Strategy Sync",
+      "start_time": "2026-08-25T14:00:00",
+      "end_time": "2026-08-25T15:00:00",
+      "description": "Discuss Q4 objectives and budget allocation."
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'create_calendar_event' with arguments: {\"title\": \"Quarterly Strategy Sync\", \"start_time\": \"2026-08-25T14:00:00\", \"end_time\": \"2026-08-25T15:00:00\", \"description\": \"Discuss Q4 objectives and budget allocation.\"}.",
+    "risk_level": "MEDIUM",
+    "status": "PENDING",
+    "created_at": "2026-08-24T14:37:38.946160+00:00",
+    "updated_at": "2026-08-24T14:37:38.946160+00:00",
+    "expires_at": "2026-08-24T14:47:38.946160+00:00",
+    "execution_result": null
+  },
+  {
+    "action_id": "act_4235701dcadd",
+    "user_id": "test_user_oauth_101",
+    "session_id": "session_test_456",
+    "action_type": "create_calendar_event",
+    "tool_name": "create_calendar_event",
+    "arguments": {
+      "title": "Quarterly Strategy Sync",
+      "start_time": "2026-08-25T14:00:00",
+      "end_time": "2026-08-25T15:00:00",
+      "description": "Discuss Q4 objectives and budget allocation."
+    },
+    "explanation": "KHANX proposes to perform sensitive action 'create_calendar_event' with arguments: {\"title\": \"Quarterly Strategy Sync\", \"start_time\": \"2026-08-25T14:00:00\", \"end_time\": \"2026-08-25T15:00:00\", \"description\": \"Discuss Q4 objectives and budget allocation.\"}.",
+    "risk_level": "MEDIUM",
+    "status": "PENDING",
+    "created_at": "2026-08-24T14:39:58.814236+00:00",
+    "updated_at": "2026-08-24T14:39:58.814236+00:00",
+    "expires_at": "2026-08-24T14:49:58.814236+00:00",
+    "execution_result": null
+  }
+]
