@@ -179,9 +179,18 @@ async function signInWithOAuth(provider = 'google') {
         };
     }
     
-    const redirectUrl = window.location.protocol === 'file:' 
-        ? 'http://127.0.0.1:8000/login'
-        : window.location.origin + '/login';
+    let redirectUrl;
+    if (typeof window !== 'undefined' && window.location) {
+        if (window.location.protocol === 'file:') {
+            redirectUrl = 'http://127.0.0.1:8000/login';
+        } else {
+            const origin = window.location.origin.replace(/\/$/, '');
+            const path = window.location.pathname.endsWith('.html') ? window.location.pathname : '/login';
+            redirectUrl = origin + (path.startsWith('/') ? path : '/' + path);
+        }
+    } else {
+        redirectUrl = 'https://khanx.onrender.com/login';
+    }
 
     try {
         const { data, error } = await client.auth.signInWithOAuth({
